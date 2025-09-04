@@ -6,7 +6,6 @@ services:
     volumes:
       - jenkins-volume:/var/jenkins_home # se utiliza el volumen nombrado para manejar mejor los datos, se mapean a /var/jenkins_home que es el directorio
                                          # donde jenkins guarda toda su info.
-
 volumes:
   jenkins-volume:
     external: true

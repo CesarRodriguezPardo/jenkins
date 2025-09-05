@@ -14,7 +14,20 @@ El propósito de este repositorio es guiar el uso de Jenkins para poder hacer ci
 Es un orquestado
 
 # Jenkins
-## Pasos previos
+## Ejecución
+Al arrancar por primera vez el docker-compose, deberá crear un volumen con el nombre especificado siguiendo este comando:
+
+```bash
+docker volume create jenkins-volume
+```
+
+Esto debido a que se especifica en el docker-compose que este volumen es externo, osea lo entrega el desarrollador.
+
+Luego una vez levantado, acceda a ip-local:8080 (URL de Jenkins que su web server debe conocer, en este caso fue configurado por Nginx y se accede a un dominio del tipo: example.com/ -> jenkins) y escriba la clave que aparecerá en los logs del contenedor de Jenkins.
+
+Así, podrá crear su usuario y poder entrar a Jenkins.
+
+## Pasos siguientes
 Instalar Webhook Generic Trigger y SSH Agent en Jenkins. (Además de todas las recomendadas)
 
 ### Webhook Generic Trigger
@@ -44,26 +57,7 @@ Dentro del payload que Github envía a través de este Hook se encuentra:
 }
 ```
 
-
 ### SSH Agent
 Este plugin nos permite poder conectarnos a una VM a través de un sshagent con credenciales específicas y continue los pasos:
   1) Cree sus llaves públicas/privadas
   2) En Jenkins -> Manage Jenkins -> Credentials, una vez allí, debe crear una nueva credencial SSH, lo más imporante es poder asignarle un ID para poder acceder a el rápidamente, un username que será por el que nos conectaremos vía SSH y por último, una llave privada generada anteriormente.
-
-## Primeros pasos
-Al arrancar por primera vez el docker-compose, deberá crear un volumen con el nombre especificado siguiendo este comando:
-
-```bash
-docker volume create jenkins-volume
-```
-
-Esto debido a que se especifica en el docker-compose que este volumen es externo, osea lo entrega el desarrollador.
-
-Luego una vez levantado, acceda a ip-local:8080 (URL de Jenkins que su web server debe conocer, en este caso fue configurado por Nginx y se accede a un dominio del tipo: example.com/ -> jenkins) y escriba la clave que aparecerá en los logs del contenedor de Jenkins.
-
-Así, podrá crear su usuario y poder entrar a Jenkins.
-
-## Pasos siguientes
-
-e
-eeeeeeeeeeeeeeeeeeeeeeeeeee

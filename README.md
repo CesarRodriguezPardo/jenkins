@@ -4,14 +4,10 @@ El propósito de este repositorio es guiar el uso de Jenkins para poder hacer ci
 # Tabla de contenidos
 - [Jenkins pruebas](#jenkins-pruebas)
 - [Tabla de Contenidos](#tabla-de-contenidos)
-    - [Docker Compose](#docker-compose)
     - [Inicio](#Inicio)
           - [Pasos previos](#pasos-previos)
             - [Webhook Generic Trigger](#webhook-generic-trigger)
             - [SSH Agent](#ssh-agent)
-
-# Docker Compose
-Es un orquestado
 
 # Inicio
 ## Ejecución

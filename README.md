@@ -1,5 +1,5 @@
-# Jenkins pruebas
-El propósito de este repositorio es hacer uso de Jenkins para poder hacer ci/cd del presente repositorio.
+# Jenkins guide
+El propósito de este repositorio es guiar el uso de Jenkins para poder hacer ci/cd.
 
 # Tabla de contenidos
 - [Jenkins pruebas](#jenkins-pruebas)
@@ -16,9 +16,10 @@ Al arrancar por primera vez el docker-compose, deberá crear un volumen con el n
 ```bash
 docker volume create jenkins-volume
 ```
+
 Esto debido a que se especifica en el docker-compose que este volumen es externo, osea lo entrega el desarrollador.
 
-Luego una vez levantado, acceda a ip-local:8080 (URL de Jenkins) y escriba la clave que aparecerá en los logs del contenedor de Jenkins.
+Luego una vez levantado, acceda a ip-local:8080 (URL de Jenkins que su web server debe conocer, en este caso fue configurado por Nginx y se accede a un dominio del tipo: example.com/ -> jenkins) y escriba la clave que aparecerá en los logs del contenedor de Jenkins.
 
 Así, podrá crear su usuario y poder entrar a Jenkins.
 
@@ -46,4 +47,3 @@ Cree un nuevo pipeline y al configurarlo podrá observar que existe un apartado 
   },
 }
 
-eee

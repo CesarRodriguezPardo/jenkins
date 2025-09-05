@@ -6,10 +6,50 @@ El propósito de este repositorio es guiar el uso de Jenkins para poder hacer ci
 - [Tabla de Contenidos](#tabla-de-contenidos)
     - [Docker Compose](#docker-compose)
     - [Jenkins](#jenkins)
+          - [Pasos previos](#pasos-previos)
+            - [Webhook Generic Trigger](#webhook-generic-trigger)
+            - [SSH Agent](#ssh-agent)
 
 # Docker Compose
+Es un orquestado
 
 # Jenkins
+## Pasos previos
+Instalar Webhook Generic Trigger y SSH Agent en Jenkins. (Además de todas las recomendadas)
+
+### Webhook Generic Trigger
+Este plugin nos permite recibir hooks desde GitHub configurandolo de manera sencilla.
+
+Nos provee una URL donde está hosteado Jenkins donde Github podrá enviar los webhooks, esta tiene la siguiente estructura:
+
+```bash
+ http://JENKINS_URL/generic-webhook-trigger/invoke
+```
+Si se quisiera agregar un Token para mayor seguridad, bastaría con agregar /invoke?token=TOKEN_HERE a la URL.
+
+Dentro del payload que Github envía a través de este Hook se encuentra:
+
+```bash
+ {
+  "ref": "refs/heads/development",
+  "repository": {
+    "name": "jenkins",
+  }
+  "ssh_url": "git@github.com:CesarRodriguezPardo/jenkins.git",
+  "clone_url": "https://github.com/CesarRodriguezPardo/jenkins.git",
+  "pusher": {
+    "name": "CesarRodriguezPardo",
+    "email": "115362848+CesarRodriguezPardo@users.noreply.github.com"
+  },
+}
+```
+
+
+### SSH Agent
+Este plugin nos permite poder conectarnos a una VM a través de un sshagent con credenciales específicas y continue los pasos:
+  1) Cree sus llaves públicas/privadas
+  2) En Jenkins -> Manage Jenkins -> Credentials, una vez allí, debe crear una nueva credencial SSH, lo más imporante es poder asignarle un ID para poder acceder a el rápidamente, un username que será por el que nos conectaremos vía SSH y por último, una llave privada generada anteriormente.
+
 ## Primeros pasos
 Al arrancar por primera vez el docker-compose, deberá crear un volumen con el nombre especificado siguiendo este comando:
 
@@ -24,27 +64,6 @@ Luego una vez levantado, acceda a ip-local:8080 (URL de Jenkins que su web serve
 Así, podrá crear su usuario y poder entrar a Jenkins.
 
 ## Pasos siguientes
-Una vez completados los primeros pasos, dirijase a la configuración de Jenkins y seleccione Plugins, allí deberá instalar Generic Webhook Trigger, esto nos permitirá recibir hooks desde github configurandolo de manera sencilla.
 
-Cree un nuevo pipeline y al configurarlo podrá observar que existe un apartado de Generic Webhook Trigger que deberá marcar para poder usar. Por otro lado, en github, en su repositorio especificamente deberá escribir en WebHooks la URL donde querrá enviar estos Hooks, que tiene la siguiente estructura en Jenkins: 
-
- http://JENKINS_URL/generic-webhook-trigger/invoke
-
- Si quisiera agregar un Token para mayor seguridad, bastaría con agregar /invoke?token=TOKEN_HERE a la URL.
-
- Dentro del payload que Github envía a través de este Hook se encuentra:
-
- {
-  "ref": "refs/heads/development",
-  "repository": {
-    "name": "jenkins",
-  }
-  "ssh_url": "git@github.com:CesarRodriguezPardo/jenkins.git",
-  "clone_url": "https://github.com/CesarRodriguezPardo/jenkins.git",
-  "pusher": {
-    "name": "CesarRodriguezPardo",
-    "email": "115362848+CesarRodriguezPardo@users.noreply.github.com"
-  },
-}
 e
 eeeeeeeeeeeeeeeeeeeeeeeeeee

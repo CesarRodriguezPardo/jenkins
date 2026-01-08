@@ -5,12 +5,12 @@ El propósito de este repositorio es guiar la implementación de pipelines utili
 - [Guía Jenkins](#guía-jenkins)
 - [Tabla de Contenidos](#tabla-de-contenidos)
     - [Inicio](#inicio)
-          - [Ejecución](#ejecución-y-primera-configuración)
-          - [Primera configuración](#primera-configuración)
-            - [Plugins recomendados](#plugins-recomendados)
-                - [Webhook Generic Trigger](#webhook-generic-trigger)
-                - [SSH Agent](#ssh-agent)
-            - [Acceso a GitHub](#acceso-a-github)
+      - [Ejecución](#ejecución-y-primera-configuración)
+      - [Primera configuración](#primera-configuración)
+        - [Plugins recomendados](#plugins-recomendados)
+          - [Webhook Generic Trigger](#webhook-generic-trigger)
+          - [SSH Agent](#ssh-agent)
+      - [Acceso a GitHub](#acceso-a-github)
 
 # Inicio
 ## Ejecución

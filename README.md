@@ -1,32 +1,60 @@
-# Jenkins guide
-El propósito de este repositorio es guiar el uso de Jenkins para poder hacer ci/cd.
+# Guía Jenkins
+El propósito de este repositorio es guiar la implementación de pipelines utilizando Jenkins, esta incluye configuración básica y ejemplos.
 
 # Tabla de contenidos
-- [Jenkins pruebas](#jenkins-pruebas)
+- [Guía Jenkins](#guía-jenkins)
 - [Tabla de Contenidos](#tabla-de-contenidos)
-    - [Inicio](#Inicio)
-          - [Pasos previos](#pasos-previos)
-            - [Webhook Generic Trigger](#webhook-generic-trigger)
-            - [SSH Agent](#ssh-agent)
+    - [Inicio](#inicio)
+          - [Ejecución](#ejecución-y-primera-configuración)
+          - [Primera configuración](#primera-configuración)
+            - [Plugins recomendados](#plugins-recomendados)
+                - [Webhook Generic Trigger](#webhook-generic-trigger)
+                - [SSH Agent](#ssh-agent)
+            - [Acceso a GitHub](#acceso-a-github)
 
 # Inicio
 ## Ejecución
-Al arrancar por primera vez el docker-compose, deberá crear un volumen con el nombre especificado siguiendo este comando:
+Dirijase al siguiente directorio:
 
 ```bash
-docker volume create jenkins-volume
+cd ./deployment
 ```
 
-Esto debido a que se especifica en el docker-compose que este volumen es externo, osea lo entrega el desarrollador.
+Una vez dentro, ejecute el docker compose para levantar jenkins.
 
-Luego una vez levantado, acceda a ip-local:8080 (URL de Jenkins que su web server debe conocer, en este caso fue configurado por Nginx y se accede a un dominio del tipo: example.com/ -> jenkins) y escriba la clave que aparecerá en los logs del contenedor de Jenkins.
+```bash
+docker compose up -d 
+```
 
-Así, podrá crear su usuario y poder entrar a Jenkins.
+## Primera configuración
+Una vez levantado, podrá acceder a su Jenkins con total normalidad, es importante mencionar que si está de forma local podrá acceder con localhost:8080, si no, una vez configurado el web server acceda a su url configurada.
 
-## Pasos siguientes
-Instalar Webhook Generic Trigger y SSH Agent en Jenkins. (Además de todos los plugins recomendados)
+Para poder iniciar por primera vez, debe acceder a los logs del contenedor.
 
-### Webhook Generic Trigger
+```bash
+docker logs -f deployment-jenkins
+```
+
+Dentro, podrá encontrar la clave inicial para poder acceder a Jenkins, así, proceda a crear tanto usuario como contraseña.
+
+Es importante mencionar que el caso ideal para aplicar las siguientes configuraciones, son las siguientes:
+
+```bash  
+  Jenkins -> VM -> GitHub
+```
+
+Es decir, Jenkins debe poder acceder a la VM y la VM debe poder tener acceso a GitHub.
+
+### Plugins recomendados
+Para poder acceder a la máquina virtual, SSH Agent es bastante útil, así, es parte de la primera tanta de plugins necesarios.
+
+Si quisiera implementar pipelines que se activan con un hook, instale Webhook Generic Trigger.
+
+Es recomendado también instalar los plugins sugeridos por Jenkins.
+
+A continuación se detalla una pequeña explicación respecto de los 2 primeros plugins.
+
+#### Webhook Generic Trigger
 Este plugin nos permite recibir hooks desde GitHub configurandolo de manera sencilla.
 
 Nos provee una URL donde está hosteado Jenkins donde Github podrá enviar los webhooks, esta tiene la siguiente estructura:
@@ -36,7 +64,7 @@ Nos provee una URL donde está hosteado Jenkins donde Github podrá enviar los w
 ```
 Si se quisiera agregar un Token para mayor seguridad, bastaría con agregar /invoke?token=TOKEN_HERE a la URL, el token se configura en la misma pestaña del plugin.
 
-Dentro del payload que Github envía a través de este Hook se encuentra:
+Dentro del payload que Github envía a través de este Hook se encuentra (entre mucha más):
 
 ```bash
  {
@@ -53,7 +81,7 @@ Dentro del payload que Github envía a través de este Hook se encuentra:
 }
 ```
 
-Esto nos permitirá trabajar con esta útil información, podemos crear parámetros con la siguiente estructura:
+Con esta información, podemos crear parámetros con la siguiente estructura:
 
 ```bash
 nombre del parámetro: repositoryName
@@ -61,10 +89,25 @@ expresión: $.repository.name (esto dice: del payload accede a ->repository->nam
 ```
 Debe seleccionar JSONPath.
 
-### SSH Agent
-Este plugin nos permite poder conectarnos a una VM a través de un sshagent con credenciales específicas y continue los pasos:
-  1) Cree sus llaves públicas/privadas
-  2) En Jenkins -> Manage Jenkins -> Credentials, una vez allí, debe crear una nueva credencial SSH, lo más imporante es poder asignarle un ID para poder acceder a el rápidamente, un username que será por el que nos conectaremos vía SSH y por último, una llave privada generada anteriormente.
+Así, podremos utilizarla a conveniencia.
+
+#### SSH Agent
+Este plugin nos permite poder conectarnos a una VM a través de un sshagent con credenciales específicas.
+
+Para configurarlo, realice lo siguiente:
+
+  1) Cree sus llaves públicas/privadas en la VM con el siguiente comando.
+
+```bash
+ssh-keygen
+```
+
+  2) Acceda a: Jenkins -> Manage Jenkins -> Credentials, una vez allí, debe crear una nueva credencial SSH, lo más imporante es poder asignarle un ID para poder acceder a el rápidamente, además, el username que será por el que nos conectaremos vía SSH y por último, la llave privada generada en el paso anterior.
+
+### Acceso a GitHub
+Para realizar esto, utilizaremos la llave pública creada en el paso de SSH Agent.
+
+Acceda a configuración de su cuenta de GitHub, una vez allí, diríjase a SSH and GPG keys y agregue una llave SSH, ahí debe escribir un nombre representativo y además, pegar la llave pública de su VM, esto asegura el acceso a GitHub y no solo eso, la posibilidad de hacer operaciones con git sin la necesidad de autorizar con token/contraseña.
 
 ## Configuración del pipeline
-Una vez realizados todos los pasos anteriores puede proceder a definir el pipeline
+Una vez asegurada la configuración que entrega acceso de la VM a Jenkins y la VM acceso a GitHub, puede proceder con la definición de pipelines.

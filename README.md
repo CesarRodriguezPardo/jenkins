@@ -10,7 +10,12 @@ El propósito de este repositorio es guiar la implementación de pipelines utili
         - [Plugins recomendados](#plugins-recomendados)
           - [Webhook Generic Trigger](#webhook-generic-trigger)
           - [SSH Agent](#ssh-agent)
-      - [Acceso a GitHub](#acceso-a-github)
+        - [Acceso a GitHub](#acceso-a-github)
+      - [Pipelines](#pipelines)
+        - [Estructura básica](#estructura-básica)
+          - [Casos específicos](#casos-específicos)
+            - [Pipeline con parámetros](#pipeline-con-parámetros)
+            - [Pipeline con webhook](#pipeline-con-webhook)
 
 # Inicio
 ## Ejecución
@@ -107,7 +112,13 @@ ssh-keygen
 ### Acceso a GitHub
 Para realizar esto, utilizaremos la llave pública creada en el paso de SSH Agent.
 
-Acceda a configuración de su cuenta de GitHub, una vez allí, diríjase a SSH and GPG keys y agregue una llave SSH, ahí debe escribir un nombre representativo y además, pegar la llave pública de su VM, esto asegura el acceso a GitHub y no solo eso, la posibilidad de hacer operaciones con git sin la necesidad de autorizar con token/contraseña.
+Acceda a la configuración de su cuenta de GitHub, una vez allí, diríjase a SSH and GPG keys y agregue una llave SSH, ahí debe escribir un nombre representativo y además, pegar la llave pública de su VM, esto asegura el acceso a GitHub y no solo eso, la posibilidad de hacer operaciones con git sin la necesidad de autorizar con token/contraseña.
 
-## Configuración del pipeline
-Una vez asegurada la configuración que entrega acceso de la VM a Jenkins y la VM acceso a GitHub, puede proceder con la definición de pipelines.
+## Pipelines
+Una vez asegurada la configuración preliminar, puede continuar a implementar sus pipelines.
+
+### Estructura básica
+
+#### Casos específicos
+##### Pipeline con parámetros
+##### Pipeline con webhook

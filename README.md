@@ -106,6 +106,20 @@ Para configurarlo, realice lo siguiente:
 ```bash
 ssh-keygen
 ```
+    Este comando creará sus llaves en el siguiente directorio:
+
+```bash
+cd .ssh
+```
+
+    Allí podrá encontrar:
+
+```bash
+id_rsa (llave privada)
+id_rsa.pub (llave pública)
+```
+
+  Es clave mencionar que la llave privada *no* debe compartirla, puesto que es básicamente decir quién es usted, por otro lado, la llave pública no es más que una autorización.
 
   2) Acceda a: Jenkins -> Manage Jenkins -> Credentials, una vez allí, debe crear una nueva credencial SSH, lo más imporante es poder asignarle un ID para poder acceder a el rápidamente, además, el username que será por el que nos conectaremos vía SSH y por último, la llave privada generada en el paso anterior.
 
